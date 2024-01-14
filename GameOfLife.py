@@ -77,6 +77,21 @@ def next_generation(height, width, current_cells, new_cells):
     # Make use of count_neighbors function to count alive neighbours of any cell
     # Make use of update_matrix function to finally update the matrix after single generation
     # Keep updating the alive cell count -> this Global variable to be updated -- g.numOfCells
+    for y in range(height):
+        for x in range(width):
+            alive_neighbors = count_neighbors(current_cells, height, width, x, y)
+            if current_cells[y][x] == 1 and alive_neighbors < 2:
+                new_cells[y][x] = 0
+            elif current_cells[y][x] == 1 and (alive_neighbors == 2 or alive_neighbors == 3):
+                new_cells[y][x] = 1
+            elif current_cells[y][x] == 1 and alive_neighbors > 3:
+                new_cells[y][x] = 0
+            elif current_cells[y][x] == 0 and alive_neighbors == 3:
+                new_cells[y][x] = 1
+            else:
+                new_cells[y][x] = current_cells[y][x]
+    g.numOfCells = sum(sum(new_cells, []))
+    update_matrix(height, width, current_cells, new_cells)
     return
 
 
